@@ -99,12 +99,12 @@ export class Request {
   /**
    * @public @function run<T>
    * @description Runs the http request
-   * @param {AxiosRequestConfig} config - Axios request config
+   * @param {AxiosRequestConfig} [config] - Axios request config
    * @returns {Promise<ApiResponse<T>>}
    */
-  public async run<T = any> (config: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  public async run<T = any> (config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     // The data returned in then and catch must be added as ApiResponse or const, otherwise the caller cannot infer the type
-    return (this.axiosInstance.request<T>(config) as Promise<CustomAxiosResponse<T>>)
+    return (this.axiosInstance.request<T>({ ...this.options, ...config }) as unknown as Promise<CustomAxiosResponse<T>>)
       .then(({ data, success, status, message }: CustomAxiosResponse<T>) => ({ data, success, status, message } as ApiResponse))
       .catch((err) => ({ success: false, data: err, status: err.response?.status, message: err.response?.statusText } as ApiResponse))
   }
