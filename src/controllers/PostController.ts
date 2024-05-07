@@ -42,7 +42,7 @@ const save = async (req: Req, res: Response) => {
   // Create a new instance of the Custom Request class for fetching posts
   const getPostsRequest = await PostsRequest.create()
   // Get all posts using the Custom Request class
-  const { data: allPosts, success } = await getPostsRequest.run({ method: 'GET', url: '/posts' })
+  const { data: allPosts, success } = await getPostsRequest.run()
   
   // If success is true, add the saved post to the posts array and reverse it to get the latest posts first
   const postsArray = success ? (savedSuccess ? [...Object.values(allPosts), savedPost].reverse() : Object.values({allPosts}).reverse()) : []
