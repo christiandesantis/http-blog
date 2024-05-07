@@ -8,9 +8,9 @@ const all = async (req: Req, res: Response) => {
   const limit = 12
   const start = (page - 1) * limit
 
-  const request = await Request.create()
+  const postsRequest = await Request.create({ method: 'GET', url: '/posts' })
   // Get all posts using Request class
-  const { data: allPosts, success } = await request.run({ method: 'GET', url: '/posts' })
+  const { data: allPosts, success } = await postsRequest.run()
   
   // Convert the posts object to an array and reverse it to get the latest posts first
   const postsArray = success ? Object.values(allPosts).reverse() : []
@@ -31,12 +31,16 @@ const save = async (req: Req, res: Response) => {
   const limit = 12
   const start = (page - 1) * limit
   const { title, body, id } = req.body
-  const request = await Request.create()
+
+  const savePostRequest = await Request.create({ method: 'POST', url: '/posts' })
 
   // Save the post using Request class
-  const { data: savedPost, success: savedSuccess } = await request.run({ method: 'POST', url: '/posts', data: { title, body, id: Number(id) } })
+  const { data: savedPost, success: savedSuccess } = await savePostRequest.run({ data: { title, body, id: Number(id) } })
+
+  const postsRequest = await Request.create({ method: 'GET', url: '/posts' })
+
   // Get all posts using Request class
-  const { data: allPosts, success } = await request.run({ method: 'GET', url: '/posts' })
+  const { data: allPosts, success } = await postsRequest.run()
   
   // If success is true, add the saved post to the posts array and reverse it to get the latest posts first
   const postsArray = success ? (savedSuccess ? [...Object.values(allPosts), savedPost].reverse() : Object.values({allPosts}).reverse()) : []
