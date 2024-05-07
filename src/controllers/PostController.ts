@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { Request as Req, Response } from 'express';
 import { renderWithHelmet } from '@/utils';
-import { Request as HttpRequest } from '@/api/request'
+import { Request } from '@/api/request'
 import { PostsPage } from '@/pages/posts'
 
-const all = async (req: Request, res: Response) => {
+const all = async (req: Req, res: Response) => {
   const page = req.query.page ? Number(req.query.page) : 1
   const limit = 12
   const start = (page - 1) * limit
 
-  const request = await HttpRequest.create()
+  const request = await Request.create()
   // Get all posts using Request class
   const { data: allPosts, success } = await request.run({ method: 'GET', url: '/posts' })
   
@@ -26,12 +26,12 @@ const all = async (req: Request, res: Response) => {
   res.send(html);
 }
 
-const save = async (req: Request, res: Response) => {
+const save = async (req: Req, res: Response) => {
   const page = req.query.page ? Number(req.query.page) : 1
   const limit = 12
   const start = (page - 1) * limit
   const { title, body, id } = req.body
-  const request = await HttpRequest.create()
+  const request = await Request.create()
 
   // Save the post using Request class
   const { data: savedPost, success: savedSuccess } = await request.run({ method: 'POST', url: '/posts', data: { title, body, id: Number(id) } })
