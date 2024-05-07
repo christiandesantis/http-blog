@@ -2,6 +2,8 @@ import { Request as Req, Response } from 'express';
 import { renderWithHelmet } from '@/utils';
 import { Request } from '@/api/request'
 import { PostsPage } from '@/pages/posts'
+import { PostsRequest } from '@/api/post'
+import { SavePostRequest } from '@/api/post/save'
 
 const all = async (req: Req, res: Response) => {
   const page = req.query.page ? Number(req.query.page) : 1
@@ -31,12 +33,16 @@ const save = async (req: Req, res: Response) => {
   const limit = 12
   const start = (page - 1) * limit
   const { title, body, id } = req.body
-  const request = await Request.create()
 
-  // Save the post using Request class
-  const { data: savedPost, success: savedSuccess } = await request.run({ method: 'POST', url: '/posts', data: { title, body, id: Number(id) } })
-  // Get all posts using Request class
-  const { data: allPosts, success } = await request.run({ method: 'GET', url: '/posts' })
+  // Create a new instance of the Custom Request class for saving posts
+  const savePostRequest = await SavePostRequest.create()
+  // Save the post using the Custom Request class
+  const { data: savedPost, success: savedSuccess } = await savePostRequest.run({ data: { title, body, id: Number(id) } })
+
+  // Create a new instance of the Custom Request class for fetching posts
+  const getPostsRequest = await PostsRequest.create()
+  // Get all posts using the Custom Request class
+  const { data: allPosts, success } = await getPostsRequest.run({ method: 'GET', url: '/posts' })
   
   // If success is true, add the saved post to the posts array and reverse it to get the latest posts first
   const postsArray = success ? (savedSuccess ? [...Object.values(allPosts), savedPost].reverse() : Object.values({allPosts}).reverse()) : []
