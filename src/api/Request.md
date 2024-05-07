@@ -90,9 +90,9 @@ import { SaveUserRequest } from '@/api/user/save'
 
 const body = { name: 'John', lastname: 'Doe' }
 
-const SaveUserRequest = await SaveUserRequest.create({ body })
+const saveUserRequest = await SaveUserRequest.create({ body })
 
-const { data, success, status, message } = await SaveUserRequest.run()
+const { data, success, status, message } = await saveUserRequest.run()
 ```
 
 Alternatively:
@@ -102,9 +102,9 @@ import { SaveUserRequest } from '@/api/user/save'
 
 const body = { name: 'John', lastname: 'Doe' }
 
-const SaveUserRequest = await SaveUserRequest.create()
+const saveUserRequest = await SaveUserRequest.create()
 
-const { data, success, status, message } = await SaveUserRequest.run({ body })
+const { data, success, status, message } = await saveUserRequest.run({ body })
 ```
 
 In this example, `SaveUserRequest` is a subclass of `Request` that defaults to making a specific request using predefined configurations. Note that both `create` and `run` methods also support the options argument that can be merged to the default configuration of the subclass, allowing flexible and reusable request handling.
