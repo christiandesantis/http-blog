@@ -51,10 +51,10 @@ export const PostsPage = ({ posts, totalPosts, totalPages, currentPage }: Layout
         <div id="myModal" className="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative">
             <a href="#" className="absolute top-0 right-0 m-6 text-4xl">&times;</a>
-            <form action="/" method="POST" className="bg-white p-6 rounded shadow-lg">
+            <form action="/" method="POST" className="bg-white dark:bg-gray-800 p-6 rounded shadow-lg">
               <h2 className="text-xl font-bold mb-4">New Post</h2>
-              <input name="title" className="w-full mb-4 p-2 border rounded" placeholder="Title" />
-              <textarea name="body" className="w-full mb-4 p-2 border rounded" placeholder="Body"></textarea>
+              <input name="title" className="w-full mb-4 p-2 border rounded dark:bg-gray-800" placeholder="Title" />
+              <textarea name="body" className="w-full mb-4 p-2 border rounded dark:bg-gray-800" placeholder="Body"></textarea>
               <input name="id" type="hidden" value={totalPosts + 1} />
               <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Submit</button>
             </form>
@@ -67,14 +67,14 @@ export const PostsPage = ({ posts, totalPosts, totalPages, currentPage }: Layout
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {posts.map((post: any) => (
-            <div key={post.id} className="mb-6 bg-white shadow rounded-lg p-6">
+            <div key={post.id} className="mb-6 bg-white dark:bg-gray-800 shadow rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-2">
                 <span className="inline-block bg-blue-500 text-white text-sm px-2 py-1 mr-2 rounded-full">
                   { post.id}
                 </span> 
                 {capitalizeFirstLetter(post.title)}
               </h2>
-              <p className="text-gray-700">{capitalizeFirstLetter(post.body)}</p>
+              <p className="text-gray-700 dark:text-gray-300">{capitalizeFirstLetter(post.body)}</p>
             </div>
           ))}
         </div>
