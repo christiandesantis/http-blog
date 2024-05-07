@@ -77,7 +77,7 @@ export class Request {
    */
   protected async importExternalResponseMessages (): Promise<void> {
     try {
-      const { statusMessage } = await import('./status.message.map')
+      const { statusMessage } = await import('./statusMessage.map')
       this.responseMessage = statusMessage
     } catch (error) {
       console.warn('Failed to load external status message map, using default map.', error)
